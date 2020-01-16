@@ -13,20 +13,28 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
         unique: true,
       },
       idade: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       peso: {
         type: Sequelize.REAL,
-        allowNull: true,
+        allowNull: false,
       },
       altura: {
         type: Sequelize.REAL,
-        allowNull: true,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
     });
   },
