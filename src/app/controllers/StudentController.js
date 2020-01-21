@@ -20,14 +20,12 @@ class StudentController {
     });
 
     if (studentExists) {
-      return res.status(400).json({ error: 'Student alredy exists.' });
+      return res.status(400).json({ error: 'Student already exists.' });
     }
 
-    const { id, name, email, idade, peso, altura } = await Student.create(
-      req.body
-    );
+    const student = await Student.create(req.body);
 
-    return res.json({ id, name, email, idade, peso, altura });
+    return res.json(student);
   }
 }
 
