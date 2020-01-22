@@ -4,6 +4,7 @@ import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import RegistrationController from './app/controllers/RegistrationController';
+import CheckinController from './app/controllers/CheckinController';
 
 import AuthMiddleware from './app/middlewares/auth';
 
@@ -13,6 +14,8 @@ routes.post('/admin-user', SessionController.store);
 
 routes.use(AuthMiddleware);
 routes.post('/students', StudentController.store);
+
+routes.post('/students/:id/checkins', CheckinController.store);
 
 routes.get('/plans', PlanController.index);
 routes.post('/plans', PlanController.store);
