@@ -2,6 +2,10 @@ import Joi from '@hapi/joi';
 
 import Registration from '../models/Registration';
 import Plan from '../models/Plan';
+import Student from '../models/Student';
+
+import RegistrationMail from '../jobs/RegistrationMail';
+import Queue from '../../lib/Queue';
 
 class RegistrationController {
   async store(req, res) {
@@ -21,6 +25,12 @@ class RegistrationController {
       return res.status(400).json({ error: 'Please inform a valid plan' });
     }
 
+    const student = await Student.findByPk(req.body.student_id);
+
+    if (!student) {
+      return res.status(400).json({ error: 'Student not found.' });
+    }
+
     const price = plan.calcFinalPrice();
 
     const end_date = await Registration.calcEndDate(req, plan);
@@ -30,6 +40,11 @@ class RegistrationController {
     registration.price = price;
 
     await Registration.create(registration);
+
+    Queue.add(RegistrationMail.key, {
+      registration,
+      student,
+    });
 
     return res.json(registration);
   }
